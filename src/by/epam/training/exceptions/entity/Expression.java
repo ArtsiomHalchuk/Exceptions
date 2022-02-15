@@ -1,54 +1,70 @@
 package by.epam.training.exceptions.entity;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Expression {
-	private String expression;
+//	private String expression;
+	private double argA;
+	private double argB;
+	private Sign operation;
+	private double result;
 	
-	public Expression(String line) {
-		this.expression=line;
+	public Expression(double a, double b, Sign operation, double result) {
+		this.argA = a;
+		this.argB = b;
+		this.operation = operation;
+		this.result=result;
+		
+	}
+	public Expression(double a, double b, Sign operation) {
+		this.argA = a;
+		this.argB = b;
+		this.operation = operation;
+		
 	}
 	
-	public double getA() {
-		Pattern p = Pattern.compile("[-]?[\\d]+[.]?[\\d]*");
-		Matcher m = p.matcher(expression);
-		return Double.parseDouble(m.group(0));
-	}
 	
-	public double getB() {
-		Pattern p = Pattern.compile("[-]?[\\d]+[.]?[\\d]*");
-		Matcher m = p.matcher(expression);
-		return Double.parseDouble(m.group(1));
-	}
 	
-	public char getOperation() {
-		Pattern p = Pattern.compile("[-\\+\\/\\*]$");
-		Matcher m = p.matcher(expression);
-		return m.group(0).charAt(0);
+	public double getArgA() {
+		return argA;
 	}
-
-	public String getExpression() {
-		return expression;
+	public void setArgA(double argA) {
+		this.argA = argA;
 	}
-
-	public void setExpression(String expression) {
-		this.expression = expression;
+	public double getArgB() {
+		return argB;
 	}
-
+	public void setArgB(double argB) {
+		this.argB = argB;
+	}
+	public Sign getOperation() {
+		return operation;
+	}
+	public void setOperation(Sign operation) {
+		this.operation = operation;
+	}
+	public double getResult() {
+		return result;
+	}
+	public void setResult(double result) {
+		this.result = result;
+	}
 	@Override
 	public String toString() {
-		return "Expression [expression=" + expression + "]";
+		return "Expression [argA=" + argA + ", argB=" + argB + ", sign=" + operation + ", result=" + result + "]";
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((expression == null) ? 0 : expression.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(argA);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(argB);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((operation == null) ? 0 : operation.hashCode());
+		temp = Double.doubleToLongBits(this.result);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -58,13 +74,20 @@ public class Expression {
 		if (getClass() != obj.getClass())
 			return false;
 		Expression other = (Expression) obj;
-		if (expression == null) {
-			if (other.expression != null)
-				return false;
-		} else if (!expression.equals(other.expression))
+		if (Double.doubleToLongBits(argA) != Double.doubleToLongBits(other.argA))
+			return false;
+		if (Double.doubleToLongBits(argB) != Double.doubleToLongBits(other.argB))
+			return false;
+		if (operation != other.operation)
+			return false;
+		if (Double.doubleToLongBits(result) != Double.doubleToLongBits(other.result))
 			return false;
 		return true;
 	}
 	
+	
+	
+	
 
-}
+	}
+
